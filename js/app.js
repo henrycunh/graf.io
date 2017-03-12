@@ -1,22 +1,31 @@
 var chart;
-
+var inte = 0;
 function addNode(){
     var en = $("#entry");
     var enV = en.val();
     var values = enV.split(" ");
-    if(values.length == 2){
+    if(values.length == 3){
         if($.isNumeric(values[0]) && $.isNumeric(values[1])){
             en.val("");
-            var node = {x:values[0], y:values[1]};
-            $("#tabela-valores").append("<tr><td>" + node.x + "</td><td>" + node.y + "</td></tr>" );
+            var node = {x:values[0], y:values[1], id: inte};
+            $("#tabela-valores").append("<tr id='" + inte + "'><td>" + node.x + "</td><td>" + node.y + "</td><td><button onclick='removeNode(" + inte + ")'>X</button></td></tr>" );
             chart.data.datasets[0].data.push(node);
             chart.update();
+            inte++;
+            
         }
     } else {
         console.log("Not yet");
     }
-    
-    
+}
+
+function removeNode(id){
+    $("#" + id).remove();
+    var index = chart.data.datasets[0].data.find(function(node) {
+                return node.id == id;
+            });
+    chart.data.datasets[0].data.splice(index,1);
+    chart.update();
 }
 
 $(function() {
