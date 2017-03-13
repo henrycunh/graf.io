@@ -1,5 +1,32 @@
 var chart;
 var inte = 0;
+var dsInt = 1;
+
+var colors = [
+    "rgb(66, 134, 244)", "rgb(92, 65, 244)", "rgb(163, 65, 244)", "rgb(65, 244, 220)", "rgb(65, 244, 73)", "rgb(229, 244, 65)", "rgb(244, 65, 157)", "rgb(244, 65, 65)"
+];
+
+function criarDataset() {
+    var dataset = 
+        "<div class='ds'>"+
+            "<h2 style='color: " + colors[dsInt] + "' id='name-" + dsInt + "'>Conjunto de Dados " + dsInt + "</h2>"+
+            "<button class='sh'>V</button>"+
+            "<div style='display:none' class='ds-in'>"+
+                "<input oninput='updateName(" + dsInt + ")' placeholder='Nome do Conjunto de Dados value='Conjunto de Dados " + dsInt + "'>" +
+                "<input oninput='addNode(" + dsInt + ")' placeholder='Entre com um ponto no gráfico (X Y)' class='entry'>"+
+                "<table id='table-" + dsInt + "'><tr><th>X</th><th>Y</th><th></th></tr></table>"+
+            "</div>"+
+        "</div>";
+    dsInt++;
+    
+    $(".controls").append(dataset);
+    $(".sh").click(function() {
+        $(this).next().slideToggle(500);
+    });
+    
+    
+}
+
 function addNode(){
     var en = $("#entry");
     var enV = en.val();
@@ -14,12 +41,11 @@ function addNode(){
             inte++;
             
         }
-    } else {
-        console.log("Not yet");
-    }
+    } 
 }
 
 function removeNode(id){
+    
     $("#" + id).remove();
     var index = chart.data.datasets[0].data.find(function(node) {
                 return node.id == id;
@@ -28,20 +54,16 @@ function removeNode(id){
     chart.update();
 }
 
-$(function() {
+$(document).ready(function() {
+    
+    
+    
     // Pegando elemento canvas
     var ctx = $("#chart");
     // Criando dados
     var data = {  
         datasets: [
-            {
-                label: "Dataset 1",
-                fill: true,
-                lineTension: 0.2,
-                backgroundColor: "rgba(75,192,192,0.4)",
-                borderColor: "rgba(75,192,192,1)",
-                data: [],
-            }
+            
         ]
     };
     

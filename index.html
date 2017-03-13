@@ -6,38 +6,98 @@
     <script src="js/jquery.js"></script>
     <script src="js/chart.min.js"></script>
     <script src="js/app.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <style>
         *{
-            font-family: sans-serif;
+            font-family: "Montserrat", sans-serif;
+        }
+        body{
+            background: #7a90bc;
         }
         .chartcont{
             width: 70%;
             height: 600px;
             display: inline-block;
             float: left;
-            border: 2px solid #bbb;
-            padding: 10px;
+            border: 2px solid #0d3482;
+            padding: 20px;
+            background: #EEF;
         }
         .controls{
             width: 25%;
             display: inline-block;
             float: right;
-        }    
-        .controls #entry{
+            background: #5b3ebc;
+        }  
+        .controls #create{
+            width: 100%;
+            border: none;
+            background: #0d3482;
+            padding: 10px;
+            color: #fff;
+            font-size: 18pt;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .ds{
+            width: 90%;
+            display: block;
+            margin: 10px auto;
+            background: #fff;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+        
+        .ds h2{
+            margin: 0;
+            display: inline-block;
+            font-size: 12pt;
+            padding-left: 10px;    
+        }
+        
+        .ds .sh{
+            display: inline-block;
+            float:right;
+            position: relative;
+            right: 0;
+            margin-left: 20px;
+            width: 20px;
+            height: 20px;
+            
+            font-size: 8pt;
+            text-align: center;
+            background: #5b3ebc;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            outline: none;
+        }
+        
+        .ds-in{
+            width: 100%;
+            height: 100px;
+            display: block;
+            background-color: #eee;
+        }
+        
+        .controls .entry{
             width: 80%;
             display: block;
             border: 2px solid #bbb;
             padding: 10px 20px;
             box-sizing: border-box;
         }
-        .controls #tabela-valores{
+        .controls .tabela-valores{
+            background: #EEF;
             border-collapse: collapse;
             width: 80%;
             box-sizing: border-box;
             border: 2px solid #bbb;
             margin: 10px 0;
         }
-        .controls #tabela-valores th,td{
+        .controls .tabela-valores th,td{
             width: 33%;
             padding: 5px;
             box-sizing: border-box;
@@ -54,14 +114,8 @@
         </canvas>
     </div>
     <div class="controls">
-        <input type="text" oninput='addNode()' placeholder="Entre com os pontos" id='entry'>
-        <table id='tabela-valores'>
-            <tr>
-                <th>X</th>
-                <th>Y</th>
-                <th>Remover</th>
-            </tr>
-        </table>
+        <button id='create' onclick='criarDataset()'>Criar Conjunto de Dados</button>
+        
         
     </div>
 </body>
