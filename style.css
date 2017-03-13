@@ -73,7 +73,7 @@
             background-color: #eee;
         }
         
-        .controls input{
+        .controls input, .ds-in button, #save{
             width: 80%;
             display: block;
             margin: 5px auto;
@@ -81,11 +81,25 @@
             padding: 10px 20px;
             box-sizing: border-box;
         }
+
+        .ds-in button{
+            background: #d80f2a;
+            color: white;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .tabela-valores button{
+            margin: 0;
+            padding: 5px 10px;
+            width: auto;
+        }
+
         .controls .tabela-valores{
             background: #EEF;
             border-collapse: collapse;
             width: 80%;
-            display: block;
+            display: block
             box-sizing: border-box;
             border: 2px solid #bbb;
             margin: 10px auto;

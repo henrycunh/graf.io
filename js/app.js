@@ -15,13 +15,14 @@ function alphaColor(color, opacity){
 function criarDataset() {
     if(dsInt <= 8){
         var dataset = 
-            "<div class='ds'>"+
+            "<div class='ds' id='dsdiv-" + dsInt + "'>"+
                 "<h2 style='color: " + colors[dsInt] + "' id='name-" + dsInt + "'>Conjunto de Dados " + dsInt + "</h2>"+
                 "<button class='sh'>V</button>"+
                 "<div style='display:none' class='ds-in'>"+
-                    "<input oninput='updateName(" + dsInt + ")' placeholder='Nome do Conjunto de Dados' value='Conjunto de Dados " + dsInt + "'>" +
+                    "<input id='namein-" + dsInt + "' oninput='updateName(" + dsInt + ")' placeholder='Nome do Conjunto de Dados' value='Conjunto de Dados " + dsInt + "'>" +
                     "<input oninput='addNode(" + dsInt + ")' id='entry-" + dsInt + "' placeholder='(X Y)' class='entry'>"+
                     "<table id='table-" + dsInt + "' class='tabela-valores'><tr><th>X</th><th>Y</th><th></th></tr></table>"+
+                    "<button onclick='removeDS(" + dsInt + ")'>Remover</button>"
                 "</div>"+
             "</div>";
 
@@ -29,7 +30,6 @@ function criarDataset() {
         $("h2#name-" + dsInt).next().click(function() {
             $(this).next().slideToggle(500);
         });
-        console.log(alphaColor(colors[dsInt-1],50));
         var ds = {
             dsId: dsInt,
             label: "Conjunto de Dados " + dsInt,
@@ -46,6 +46,20 @@ function criarDataset() {
     }
 }
 
+function getPos(int){
+    return chart.data.datasets.find(function(ds) { 
+        return ds.dsId = int;
+    }).dsId - 1;
+}
+
+function updateName(int){
+    var inp = $("#namein-"+int);
+    var name = $("#name-"+int);
+    chart.data.datasets[getPos(int)].label = inp.val();
+    chart.update();
+    name.html(inp.val());
+}
+
 function addNode(int){
     var en = $("#entry-"+int);
     var enV = en.val();
@@ -55,26 +69,34 @@ function addNode(int){
             en.val("");
             var node = {x:values[0], y:values[1], id: inte};
             $("#table-"+int).append("<tr id='"+int+"-" + inte + "'><td>" + node.x + "</td><td>" + node.y + "</td><td><button onclick='removeNode(" + inte + "," + int + ")'>X</button></td></tr>" );
-            chart.data.datasets[int-1].data.push(node);
+            chart.data.datasets[getPos(int)].data.push(node);
             chart.update();
             inte++;
         }
     } 
 }
 
-function removeNode(id, int){
-    $("#" + int + "-" + id).remove();
-    var index = chart.data.datasets[int-1].data.find(function(node) {
-                return node.id == id;
-            });
-    chart.data.datasets[int-1].data.splice(index,1);
+function removeDS(int){
+    $("#dsdiv-"+int).remove();
+    chart.data.datasets.splice(getPos(int),1);
     chart.update();
 }
 
+function removeNode(id, int){
+    $("#" + int + "-" + id).remove();
+    var index = chart.data.datasets[getPos(int)].data.find(function(node) {
+                return node.id == id;
+            });
+    chart.data.datasets[getPos(int)].data.splice(index,1);
+    chart.update();
+}
+
+function saveImage(){
+    var img = chart.toBase64Image();
+    download(img, 'Grafico - graf.io.png', 'image/png');
+}
+
 $(document).ready(function() {
-    
-    
-    
     // Pegando elemento canvas
     var ctx = $("#chart");
     // Criando dados
