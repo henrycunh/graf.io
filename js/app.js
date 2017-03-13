@@ -6,51 +6,68 @@ var colors = [
     "rgb(66, 134, 244)", "rgb(92, 65, 244)", "rgb(163, 65, 244)", "rgb(65, 244, 220)", "rgb(65, 244, 73)", "rgb(229, 244, 65)", "rgb(244, 65, 157)", "rgb(244, 65, 65)"
 ];
 
-function criarDataset() {
-    var dataset = 
-        "<div class='ds'>"+
-            "<h2 style='color: " + colors[dsInt] + "' id='name-" + dsInt + "'>Conjunto de Dados " + dsInt + "</h2>"+
-            "<button class='sh'>V</button>"+
-            "<div style='display:none' class='ds-in'>"+
-                "<input oninput='updateName(" + dsInt + ")' placeholder='Nome do Conjunto de Dados value='Conjunto de Dados " + dsInt + "'>" +
-                "<input oninput='addNode(" + dsInt + ")' placeholder='Entre com um ponto no gráfico (X Y)' class='entry'>"+
-                "<table id='table-" + dsInt + "'><tr><th>X</th><th>Y</th><th></th></tr></table>"+
-            "</div>"+
-        "</div>";
-    dsInt++;
-    
-    $(".controls").append(dataset);
-    $(".sh").click(function() {
-        $(this).next().slideToggle(500);
-    });
-    
-    
+function alphaColor(color, opacity){
+    color = color.replace("rgb", "rgba");
+    color = color.replace(")", ", " + parseFloat(opacity / 100).toFixed(2) + ")");
+    return color;
 }
 
-function addNode(){
-    var en = $("#entry");
+function criarDataset() {
+    if(dsInt <= 8){
+        var dataset = 
+            "<div class='ds'>"+
+                "<h2 style='color: " + colors[dsInt] + "' id='name-" + dsInt + "'>Conjunto de Dados " + dsInt + "</h2>"+
+                "<button class='sh'>V</button>"+
+                "<div style='display:none' class='ds-in'>"+
+                    "<input oninput='updateName(" + dsInt + ")' placeholder='Nome do Conjunto de Dados' value='Conjunto de Dados " + dsInt + "'>" +
+                    "<input oninput='addNode(" + dsInt + ")' id='entry-" + dsInt + "' placeholder='(X Y)' class='entry'>"+
+                    "<table id='table-" + dsInt + "' class='tabela-valores'><tr><th>X</th><th>Y</th><th></th></tr></table>"+
+                "</div>"+
+            "</div>";
+
+        $(".controls").append(dataset);
+        $("h2#name-" + dsInt).next().click(function() {
+            $(this).next().slideToggle(500);
+        });
+        console.log(alphaColor(colors[dsInt-1],50));
+        var ds = {
+            dsId: dsInt,
+            label: "Conjunto de Dados " + dsInt,
+            fill: true,
+            backgroundColor: alphaColor(colors[dsInt-1], 30),
+            borderColor: colors[dsInt-1],
+            lineTension: 0.2,
+            data:[]
+        };
+        chart.data.datasets.push(ds);
+        chart.update();
+
+        dsInt++;
+    }
+}
+
+function addNode(int){
+    var en = $("#entry-"+int);
     var enV = en.val();
     var values = enV.split(" ");
     if(values.length == 3){
         if($.isNumeric(values[0]) && $.isNumeric(values[1])){
             en.val("");
             var node = {x:values[0], y:values[1], id: inte};
-            $("#tabela-valores").append("<tr id='" + inte + "'><td>" + node.x + "</td><td>" + node.y + "</td><td><button onclick='removeNode(" + inte + ")'>X</button></td></tr>" );
-            chart.data.datasets[0].data.push(node);
+            $("#table-"+int).append("<tr id='"+int+"-" + inte + "'><td>" + node.x + "</td><td>" + node.y + "</td><td><button onclick='removeNode(" + inte + "," + int + ")'>X</button></td></tr>" );
+            chart.data.datasets[int-1].data.push(node);
             chart.update();
             inte++;
-            
         }
     } 
 }
 
-function removeNode(id){
-    
-    $("#" + id).remove();
-    var index = chart.data.datasets[0].data.find(function(node) {
+function removeNode(id, int){
+    $("#" + int + "-" + id).remove();
+    var index = chart.data.datasets[int-1].data.find(function(node) {
                 return node.id == id;
             });
-    chart.data.datasets[0].data.splice(index,1);
+    chart.data.datasets[int-1].data.splice(index,1);
     chart.update();
 }
 
