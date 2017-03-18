@@ -18,18 +18,21 @@
             display: inline-block;
             float: right;
             background: #5b3ebc;
-        }  
-        .controls #create{
-            width: 100%;
+            box-sizing: border-box;
+        }
+        .controls .btn{
+            width: 95%;
             border: none;
+            display: block;
             background: #0d3482;
             padding: 10px;
             color: #fff;
             font-size: 18pt;
+            margin: 5px auto;
             font-weight: bold;
             cursor: pointer;
         }
-        
+
         .ds{
             width: 90%;
             display: block;
@@ -38,14 +41,14 @@
             padding: 5px;
             box-sizing: border-box;
         }
-        
+
         .ds h2{
             margin: 0;
             display: inline-block;
             font-size: 12pt;
-            padding-left: 10px;    
+            padding-left: 10px;
         }
-        
+
         .ds .sh{
             display: inline-block;
             float:right;
@@ -54,7 +57,7 @@
             margin-left: 20px;
             width: 20px;
             height: 20px;
-            
+
             font-size: 8pt;
             text-align: center;
             background: #5b3ebc;
@@ -64,7 +67,7 @@
             border: none;
             outline: none;
         }
-        
+
         .ds-in{
             padding: 20px;
             width: 100%;
@@ -72,7 +75,7 @@
             display: block;
             background-color: #eee;
         }
-        
+
         .controls input, .ds-in button, #save{
             width: 80%;
             display: block;
@@ -80,6 +83,11 @@
             border: 2px solid #bbb;
             padding: 10px 20px;
             box-sizing: border-box;
+        }
+
+        .funcEntry{
+          width: 30%;
+          display: inline-block;
         }
 
         .ds-in button{
@@ -111,4 +119,3 @@
             box-sizing: border-box;
             text-align: center;
         }
-        
